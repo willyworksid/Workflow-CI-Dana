@@ -11,7 +11,7 @@ from sklearn.metrics import (
     classification_report
 )
 
-df = pd.read_csv("./preprocessing/dataset_preprocessing.csv")
+df = pd.read_csv("dataset_preprocessing.csv")
 
 print(df.head())
 print(df.columns)
