@@ -67,30 +67,30 @@ mlflow.sklearn.autolog()
 y_train = y_train.values
 y_test = y_test.values
 
-with mlflow.start_run():
 
-  model = LogisticRegression(
-    max_iter=1000,
-    random_state=42
+
+model = LogisticRegression(
+  max_iter=1000,
+  random_state=42
+)
+
+model.fit(x_train,y_train)
+
+y_pred = model.predict(x_test)
+
+accuracy = accuracy_score(
+  y_test,
+  y_pred
+)
+
+print(
+  "Accuracy:",
+  accuracy
+)
+
+print(
+  classification_report(
+      y_test,
+      y_pred
   )
-
-  model.fit(x_train,y_train)
-
-  y_pred = model.predict(x_test)
-
-  accuracy = accuracy_score(
-    y_test,
-    y_pred
-  )
-
-  print(
-    "Accuracy:",
-    accuracy
-  )
-
-  print(
-    classification_report(
-        y_test,
-        y_pred
-    )
-  )
+)
