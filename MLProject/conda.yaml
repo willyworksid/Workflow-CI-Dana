@@ -1,0 +1,15 @@
+nama : dana-env
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.9
+  - pip
+
+  - pip:
+      - scikit-learn
+      - pandas
+      - mlflow
+      - nltk
+      - Sastrawi 
