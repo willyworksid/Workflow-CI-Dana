@@ -36,3 +36,36 @@ jobs:
       - name: Check MLruns Structure
         run: |
             find . -type d | grep mlruns
+    
+      - name: Get Model Path
+        run: |
+            MODEL_PATH=$(find mlruns -type d -path "*/models/m-*/artifacts" | head -n 1)
+            echo "MODEL_PATH=$MODEL_PATH" >> $GITHUB_ENV
+            echo "Model path: $MODEL_PATH"
+      
+      - name: Verify Model Path
+        run: |
+            echo "$MODEL_PATH"
+            ls -R "$MODEL_PATH"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+            username: ${{ secrets.DOCKER_HUB_USERNAME }}
+            password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Docker Image
+        run: |
+            mlflow models build-docker \
+            --model-uri "$MODEL_PATH" \
+            --name dana-sentiment
+
+      - name: Tag Docker Image
+        run: |
+            docker tag dana-sentiment \
+            ${{ secrets.DOCKER_HUB_USERNAME }}/dana-sentiment:latest
+
+      - name: Push Docker Image
+        run: |
+            docker push \
+            ${{ secrets.DOCKER_HUB_USERNAME }}/dana-sentiment:latest
