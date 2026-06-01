@@ -83,6 +83,16 @@ accuracy = accuracy_score(
   y_pred
 )
 
+mlflow.log_metric(
+    "accuracy",
+    accuracy
+)
+
+mlflow.sklearn.log_model(
+    sk_model=model,
+    name="model"
+)
+
 print(
   "Accuracy:",
   accuracy
